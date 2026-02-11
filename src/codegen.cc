@@ -130,6 +130,32 @@ void Codegen::emitPreamble() {
 
     out << "num32 num32_abs(num32 x) { return std::abs(x); }\n";
 
+    out << "std::vector<char> numToString(num n) {\n";
+    out << "    std::string s = std::to_string(n);\n";
+    out << "    return std::vector<char>(s.begin(), s.end());\n";
+    out << "}\n";
+    out << "\n";
+    out << "std::vector<char> charToString(char c) {\n";
+    out << "    return {c};\n";
+    out << "}\n";
+    out << "\n";
+    out << "std::string any_to_string(num n) { return std::to_string(n); }\n";
+    out << "std::string any_to_string(int n) { return std::to_string(n); }\n";
+    out << "std::string any_to_string(char c) { return std::string(1, c); }\n";
+    out << "std::string any_to_string(bool b) { return b ? \"true\" : \"false\"; }\n";
+    out << "\n";
+    out << "template <typename T>\n";
+    out << "std::vector<char> listToString(const std::vector<T>& list) {\n";
+    out << "    std::string s = \"[\";\n";
+    out << "    for (size_t i = 0; i < list.size(); ++i) {\n";
+    out << "        if (i > 0) s += \", \";\n";
+    out << "        s += any_to_string(list[i]);\n";
+    out << "    }\n";
+    out << "    s += \"]\";\n";
+    out << "    return std::vector<char>(s.begin(), s.end());\n";
+    out << "}\n";
+    out << "\n";
+
     out << "\n// End Runtime\n\n";
 }
 
