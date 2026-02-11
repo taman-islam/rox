@@ -110,7 +110,8 @@ int main() {
     (sum = (sum + i));
   }
   if ((sum == ((num)45)))   {
-    print(std::vector{'S', 'u', 'm', ' ', 'i', 's', ' ', '4', '5', '\n'});
+    print(std::vector{'S', 'u', 'm', ' ', 'i', 's', ' '});
+    print(numToString(sum));
   }
   return 0;
 }

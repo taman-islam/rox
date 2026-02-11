@@ -117,14 +117,14 @@
 function main() -> none {
     print(['H','e','l','l','o',' ','R','O','X','!','\n']);
 
-    let sum <num> = 0;
+    num sum = 0;
     repeat i in range(0, 10, 1) {
         sum = sum + i;
     }
 
-    // Print sum (manual conversion for now)
     if (sum == 45) {
-        print(['S','u','m',' ','i','s',' ','4','5','\n']);
+        print(['S','u','m',' ','i','s', ' ']);
+        print(numToString(sum));
     }
 }
             </textarea>
