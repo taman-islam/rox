@@ -7,12 +7,45 @@
     <title>ROX Playground</title>
     <style>
         body {
-            font-family: monospace;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
             display: flex;
+            flex-direction: column;
+            /* Changed to column to stack nav */
             height: 100vh;
             margin: 0;
             background: #1e1e1e;
             color: #d4d4d4;
+        }
+
+        nav {
+            background: #252526;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #3e3e42;
+            flex-shrink: 0;
+        }
+
+        nav a {
+            color: #d4d4d4;
+            text-decoration: none;
+            margin-right: 20px;
+            font-weight: 500;
+            font-size: 16px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: #569cd6;
+        }
+
+        nav .brand {
+            font-weight: bold;
+            font-size: 18px;
+            color: #569cd6;
+            margin-right: 40px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
         .container {
@@ -39,7 +72,8 @@
             color: #d4d4d4;
             border: 1px solid #3e3e42;
             padding: 10px;
-            font-family: inherit;
+            font-family: monospace;
+            /* Force monospace for code */
             resize: none;
             outline: none;
             font-size: 14px;
@@ -51,6 +85,7 @@
             white-space: pre-wrap;
             padding: 10px;
             overflow: auto;
+            font-family: monospace;
         }
 
         button {
@@ -70,6 +105,11 @@
 </head>
 
 <body>
+    <nav>
+        <span class="brand">ROX</span>
+        <a href="/" class="active">Playground</a>
+        <a href="/docs.html">Docs</a>
+    </nav>
     <div class="container">
         <div class="column">
             <h2>Source Code</h2>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ROX Documentation</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+      background: #1e1e1e;
+      color: #d4d4d4;
+    }
+
+    nav {
+      background: #252526;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #3e3e42;
+    }
+
+    nav a {
+      color: #d4d4d4;
+      text-decoration: none;
+      margin-right: 20px;
+      font-weight: 500;
+      font-size: 16px;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: #569cd6;
+    }
+
+    nav .brand {
+      font-weight: bold;
+      font-size: 18px;
+      color: #569cd6;
+      margin-right: 40px;
+    }
+
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      line-height: 1.6;
+    }
+
+    h1,
+    h2,
+    h3 {
+      color: #569cd6;
+      margin-top: 30px;
+    }
+
+    h1 {
+      border-bottom: 1px solid #3e3e42;
+      padding-bottom: 10px;
+    }
+
+    code {
+      background: #2d2d2d;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-family: monospace;
+      color: #ce9178;
+    }
+
+    pre {
+      background: #2d2d2d;
+      padding: 15px;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+      color: #d4d4d4;
+    }
+
+    blockquote {
+      border-left: 4px solid #569cd6;
+      margin: 0;
+      padding-left: 20px;
+      color: #a0a0a0;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <span class="brand">ROX</span>
+    <a href="/">Playground</a>
+    <a href="/docs.html" class="active">Docs</a>
+    <a href="/docs/types.html">Types</a>
+    <a href="/docs/control.html">Control</a>
+    <a href="/docs/collections.html">Collections</a>
+  </nav>
+
+  <div class="content">
+    <h1>ROX Language</h1>
+    <p>ROX is a minimal, clarity-first programming language built on a simple belief:</p>
+    <blockquote>Programming logic should not have to fight the language.</blockquote>
+    <p>ROX removes implicit behavior, hidden conversions, and syntactic tricks so that expressing logic feels direct and
+      mechanical rather than negotiated.</p>
+
+    <h2>Why ROX Exists</h2>
+    <p>In many languages, expressing simple logic often requires navigating implicit type coercions, silent conversions,
+      operator overloading, hidden control flow, and exception systems.</p>
+    <p>ROX intentionally removes these. The goal is <strong>clarity of expression</strong>.</p>
+    <ul>
+      <li>Every type is explicit.</li>
+      <li>Every error is a value.</li>
+      <li>Every access is deliberate.</li>
+      <li>Nothing implicit happens behind your back.</li>
+    </ul>
+
+    <h2>Core Principles (v0)</h2>
+    <ul>
+      <li>No implicit type conversions</li>
+      <li>No bracket indexing (<code>[]</code> only for list literals)</li>
+      <li>No exceptions — errors are explicit values (<code>rox_result[T]</code>)</li>
+      <li>A single loop construct (<code>repeat</code>)</li>
+      <li>Explicit control flow only</li>
+      <li>Strict compile-time type checking</li>
+    </ul>
+
+    <h2>Example: Two Sum</h2>
+    <pre><code>function two_sum(nums <list[num]>, target <num>) -> list[num] {
+    let n <num> = nums.size();
+
+    repeat i in range(0, n, 1) {
+        repeat j in range(i + 1, n, 1) {
+
+            let r1 <rox_result[num]> = nums.at(i);
+            if (not isOk(r1)) { return [-1, -1]; }
+            let v1 <num> = getValue(r1);
+
+            let r2 <rox_result[num]> = nums.at(j);
+            if (not isOk(r2)) { return [-1, -1]; }
+            let v2 <num> = getValue(r2);
+
+            if (v1 + v2 == target) {
+                return [i, j];
+            }
+        }
+    }
+
+    return [-1, -1];
+}</code></pre>
+
+    <h3>Notable Properties</h3>
+    <ul>
+      <li><code>.at()</code> returns <code>rox_result[T]</code></li>
+      <li>Errors must be handled explicitly</li>
+      <li>No implicit casts</li>
+      <li><code>range</code> is the only loop construct</li>
+    </ul>
+
+    <h2>Language Features (v0)</h2>
+    <h3>Types</h3>
+    <ul>
+      <li><code>num</code> (int64)</li>
+      <li><code>num32</code> (int32)</li>
+      <li><code>bool</code></li>
+      <li><code>char</code></li>
+      <li><code>none</code></li>
+      <li><code>list[T]</code></li>
+      <li><code>rox_result[T]</code></li>
+    </ul>
+
+    <h3>Control Flow</h3>
+    <ul>
+      <li><code>if</code> / <code>else</code></li>
+      <li><code>repeat i in range(start, end, step)</code></li>
+    </ul>
+
+    <h3>Built-in Functions</h3>
+    <ul>
+      <li><code>print</code></li>
+      <li><code>isOk</code></li>
+      <li><code>getValue</code></li>
+    </ul>
+
+    <h2>Error Model</h2>
+    <p>ROX does not use exceptions. Errors are explicit values:</p>
+    <pre><code>let r <rox_result[num]> = nums.at(i);
+if (not isOk(r)) {
+    return [-1, -1];
+}
+let value <num> = getValue(r);</code></pre>
+    <p>Nothing throws. Nothing hides.</p>
+
+    <h2>Download &amp; Build</h2>
+    <p>You can verify and run algorithms locally using the <a href="/" style="color: #569cd6;">Playground</a> or by
+      building the compiler from source.</p>
+  </div>
+</body>
+
+</html>

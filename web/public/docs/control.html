@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ROX Control Flow - Documentation</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+      background: #1e1e1e;
+      color: #d4d4d4;
+    }
+
+    nav {
+      background: #252526;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #3e3e42;
+    }
+
+    nav a {
+      color: #d4d4d4;
+      text-decoration: none;
+      margin-right: 20px;
+      font-weight: 500;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: #569cd6;
+    }
+
+    nav .brand {
+      font-weight: bold;
+      font-size: 18px;
+      color: #569cd6;
+      margin-right: 40px;
+    }
+
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      line-height: 1.6;
+    }
+
+    h1,
+    h2 {
+      color: #569cd6;
+      margin-top: 30px;
+    }
+
+    h1 {
+      border-bottom: 1px solid #3e3e42;
+      padding-bottom: 10px;
+    }
+
+    code {
+      background: #2d2d2d;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-family: monospace;
+      color: #ce9178;
+    }
+
+    pre {
+      background: #2d2d2d;
+      padding: 15px;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+      color: #d4d4d4;
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <span class="brand">ROX</span>
+    <a href="/">Playground</a>
+    <a href="/docs.html">Docs</a>
+    <a href="/docs/types.html">Types</a>
+    <a href="/docs/control.html" class="active">Control</a>
+    <a href="/docs/collections.html">Collections</a>
+  </nav>
+
+  <div class="content">
+    <h1>Control Flow</h1>
+    <p>ROX provides minimal but sufficient control flow constructs. All control flow is explicit.</p>
+
+    <h2>Conditionals</h2>
+    <h3>if / else</h3>
+    <p>Standard conditional logic. Boolean expressions must be explicit.</p>
+    <pre><code>if (x > 10) {
+    print(['B','i','g','\n']);
+} else if (x == 0) {
+    print(['Z','e','r','o','\n']);
+} else {
+    print(['S','m','a','l','l','\n']);
+}</code></pre>
+
+    <h2>Loops</h2>
+    <h3>repeat</h3>
+    <p>ROX has a single loop construct: <code>repeat</code>. It iterates over a range of numbers.</p>
+    <p>Syntax: <code>repeat var in range(start, end, step)</code></p>
+    <ul>
+      <li><code>start</code>: Inclusive</li>
+      <li><code>end</code>: Exclusive (stop before this value)</li>
+      <li><code>step</code>: Increment amount</li>
+    </ul>
+    <pre><code>// Print 0 to 4
+repeat i in range(0, 5, 1) {
+    // i is 0, 1, 2, 3, 4
+}</code></pre>
+
+    <p>To iterate backwards:</p>
+    <pre><code>// Print 10 down to 1
+repeat i in range(10, 0, -1) {
+    // i is 10, 9, ... 1
+}</code></pre>
+
+  </div>
+</body>
+
+</html>
