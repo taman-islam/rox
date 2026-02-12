@@ -130,12 +130,11 @@ Immutable sequence of bytes.
 
 - `.size() -> num`
 - `.at(index) -> rox_result[char]`
-- `.toList() -> list[char]`
 
 ## Built-in Functions
 
 - `print(val) -> none`: Supports `string`, `num`, `num32`, `float`, `bool`, `char`, `list`.
-- `listToString(list[T]) -> list[char]`
+
 - `isOk(rox_result[T]) -> bool`
 - `getValue(rox_result[T]) -> T`
 

@@ -69,11 +69,11 @@ function main() -> none {
 
             list[char] s3 = ['p','w','w','k','e','w'];
             if (length_of_longest_substring(s3) == 3) {
-                print("Longest Substring: Passed\n".toList());
+                print("Longest Substring: Passed\n");
                 return none;
             }
         }
     }
 
-    print("Longest Substring: Failed\n".toList());
+    print("Longest Substring: Failed\n");
 }

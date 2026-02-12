@@ -150,10 +150,7 @@ void Codegen::emitPreamble() {
     out << "    return ok(s.val[i]);\n";
     out << "}\n";
     out << "\n";
-    out << "// String to List\n";
-    out << "std::vector<char> rox_to_list(const RoxString& s) {\n";
-    out << "    return std::vector<char>(s.val.begin(), s.val.end());\n";
-    out << "}\n";
+
     out << "\n";
     out << "// Division\n";
     out << "template<typename T>\n";
@@ -565,10 +562,6 @@ void Codegen::genMethodCall(MethodCallExpr* expr) {
         genExpr(expr->object.get());
         out << ", ";
         if (!expr->arguments.empty()) genExpr(expr->arguments[0].get());
-        out << ")";
-    } else if (method == "toList") {
-        out << "rox_to_list(";
-        genExpr(expr->object.get());
         out << ")";
     } else if (method == "append") {
         genExpr(expr->object.get());

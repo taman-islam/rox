@@ -61,7 +61,7 @@ std::string Formatter::format() {
                  Token next = tokens[i+1];
                  if (next.type == TokenType::SEMICOLON || next.type == TokenType::COMMA || next.type == TokenType::DOT || next.type == TokenType::RIGHT_PAREN || next.type == TokenType::LEFT_BRACKET || next.type == TokenType::RIGHT_BRACKET) {
                      spaceAfter = false;
-                 } else if (t.type == TokenType::LEFT_PAREN || t.type == TokenType::LEFT_BRACKET || t.type == TokenType::DOT || t.type == TokenType::NOT || t.type == TokenType::BANG) {
+                 } else if (t.type == TokenType::LEFT_PAREN || t.type == TokenType::LEFT_BRACKET || t.type == TokenType::DOT || t.type == TokenType::NOT) {
                      spaceAfter = false;
                  } else {
                      spaceAfter = true;
@@ -78,7 +78,7 @@ std::string Formatter::format() {
                  if (t.type == TokenType::MINUS && next.type == TokenType::GREATER) spaceAfter = false;
 
                  // if ( space
-                 if ((t.type == TokenType::IF || t.type == TokenType::WHILE || t.type == TokenType::FOR || t.type == TokenType::REPEAT) && next.type == TokenType::LEFT_PAREN) spaceAfter = true;
+                 if ((t.type == TokenType::IF || t.type == TokenType::REPEAT) && next.type == TokenType::LEFT_PAREN) spaceAfter = true;
              }
         }
 

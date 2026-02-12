@@ -2,7 +2,7 @@ function main() -> none {
     string s = "Hello";
 
     // Check size
-    if (s.size() != 5) {
+    if (not (s.size() == 5)) {
         print("Size Fail\n");
         return none;
     }
@@ -13,7 +13,7 @@ function main() -> none {
          print("At Fail 1\n");
          return none;
     }
-    if (getValue(r) != 'e') {
+    if (not (getValue(r) == 'e')) {
          print("At Fail 2\n");
          return none;
     }

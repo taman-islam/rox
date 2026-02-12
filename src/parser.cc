@@ -273,7 +273,7 @@ std::unique_ptr<Expr> Parser::factor() {
 }
 
 std::unique_ptr<Expr> Parser::unary() {
-    if (match({TokenType::BANG, TokenType::MINUS, TokenType::NOT})) {
+    if (match({TokenType::MINUS, TokenType::NOT})) {
         Token op = previous();
         std::unique_ptr<Expr> right = unary();
         return std::make_unique<UnaryExpr>(op, std::move(right));
@@ -422,13 +422,10 @@ void Parser::synchronize() {
     while (!isAtEnd()) {
         if (previous().type == TokenType::SEMICOLON) return;
         switch (peek().type) {
-            case TokenType::CLASS:
             case TokenType::FUNCTION:
-            case TokenType::LET:
             case TokenType::CONST:
-            case TokenType::FOR:
+            case TokenType::REPEAT:
             case TokenType::IF:
-            case TokenType::WHILE:
             case TokenType::PRINT:
             case TokenType::RETURN:
                 return;

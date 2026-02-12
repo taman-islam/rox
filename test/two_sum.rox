@@ -39,11 +39,11 @@ function main() -> none {
 
         if (isOk(r0) and isOk(r1)) {
             if (getValue(r0) == 0 and getValue(r1) == 1) {
-                print("Two Sum: Passed\n".toList());
+                print("Two Sum: Passed\n");
                 return none;
             }
         }
     }
 
-    print("Failed\n".toList());
+    print("Failed\n");
 }

@@ -28,11 +28,11 @@ function is_valid(list[char] s) -> bool {
             stack.pop();
 
             if (c == ')') {
-                if (top != '(') { return false; }
+                if (not (top == '(')) { return false; }
             } else if (c == '}') {
-                if (top != '{') { return false; }
+                if (not (top == '{')) { return false; }
             } else if (c == ']') {
-                if (top != '[') { return false; }
+                if (not (top == '[')) { return false; }
             }
         }
     }

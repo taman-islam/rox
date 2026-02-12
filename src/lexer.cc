@@ -6,13 +6,10 @@ namespace rox {
 
 static const std::map<std::string, TokenType> keywords = {
     {"and", TokenType::AND},
-    {"class", TokenType::CLASS},
     {"else", TokenType::ELSE},
     {"false", TokenType::FALSE},
-    {"for", TokenType::FOR},
     {"function", TokenType::FUNCTION},
     {"if", TokenType::IF},
-    {"let", TokenType::LET},
     {"const", TokenType::CONST},
     {"none", TokenType::NONE},
     {"or", TokenType::OR},
@@ -20,7 +17,6 @@ static const std::map<std::string, TokenType> keywords = {
     {"read_line", TokenType::READ_LINE},
     {"return", TokenType::RETURN},
     {"true", TokenType::TRUE},
-    {"while", TokenType::WHILE},
     {"repeat", TokenType::REPEAT},
     {"range", TokenType::RANGE},
     {"not", TokenType::NOT},
@@ -63,9 +59,7 @@ void Lexer::scanToken() {
         case ';': addToken(TokenType::SEMICOLON); break;
         case '*': addToken(TokenType::STAR); break;
         case '%': addToken(TokenType::PERCENT); break;
-        case '!':
-            addToken(TokenType::BANG);
-            break;
+
         case '=':
             addToken(match('=') ? TokenType::EQUAL_EQUAL : TokenType::EQUAL);
             break;
