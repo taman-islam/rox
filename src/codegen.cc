@@ -170,7 +170,7 @@ void Codegen::emitPreamble() {
     out << "\n";
     out << "// Dictionary Access\n";
     out << "template<typename K, typename V>\n";
-    out << "rox_result<V> rox_at(const std::unordered_map<K, V>& dict, K key) {\n";
+    out << "rox_result<V> rox_get(const std::unordered_map<K, V>& dict, K key) {\n";
     out << "    auto it = dict.find(key);\n";
     out << "    if (it == dict.end()) return error<V>(2); // key_not_found\n";
     out << "    return ok(it->second);\n";
@@ -561,6 +561,12 @@ void Codegen::genMethodCall(MethodCallExpr* expr) {
     std::string method = expr->name.lexeme;
     if (method == "at") {
         out << "rox_at(";
+        genExpr(expr->object.get());
+        out << ", ";
+        if (!expr->arguments.empty()) genExpr(expr->arguments[0].get());
+        out << ")";
+    } else if (method == "get") {
+        out << "rox_get(";
         genExpr(expr->object.get());
         out << ", ";
         if (!expr->arguments.empty()) genExpr(expr->arguments[0].get());

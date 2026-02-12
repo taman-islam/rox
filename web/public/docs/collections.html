@@ -143,7 +143,7 @@ scores.set("player1", 100);</code></pre>
 
     <h3>Verification</h3>
     <p>Access returns a <code>rox_result[V]</code> which must be checked.</p>
-    <pre><code>rox_result[string] res = d.at(1);
+    <pre><code>rox_result[string] res = d.get(1);
 if (isOk(res)) {
     string val = getValue(res);
 }</code></pre>
@@ -154,7 +154,7 @@ if (isOk(res)) {
       <li><code>.remove(key) -> none</code>: Removes the key and its value.</li>
       <li><code>.has(key) -> bool</code>: Checks if a key exists.</li>
       <li><code>.size() -> num</code>: Returns the number of elements.</li>
-      <li><code>.at(key) -> rox_result[V]</code>: Safely retrieves a value.</li>
+      <li><code>.get(key) -> rox_result[V]</code>: Safely retrieves a value.</li>
     </ul>
   </div>
 </body>

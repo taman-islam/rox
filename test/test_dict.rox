@@ -9,14 +9,14 @@ function main() -> none {
     // Get
     print(any_to_string(d.size())); // 2
 
-    rox_result[string] r1 = d.at(1);
+    rox_result[string] r1 = d.get(1);
     if (isOk(r1)) {
         print(getValue(r1)); // one
     }
 
     // Overwrite
     d.set(1, "ONE");
-    rox_result[string] r2 = d.at(1);
+    rox_result[string] r2 = d.get(1);
     if (isOk(r2)) {
         print(getValue(r2)); // ONE
     }
@@ -36,7 +36,7 @@ function main() -> none {
     print(d.has(2)); // Should be "false"
 
     // Error handling
-    rox_result[string] r3 = d.at(99);
+    rox_result[string] r3 = d.get(99);
     if (not isOk(r3)) {
         print("Key not found");
     }
@@ -44,7 +44,7 @@ function main() -> none {
     // String keys
     dictionary[string, num] ds;
     ds.set("a", 100);
-    rox_result[num] rs = ds.at("a");
+    rox_result[num] rs = ds.get("a");
     if (isOk(rs)) {
         print(numToString(getValue(rs))); // 100
     }
