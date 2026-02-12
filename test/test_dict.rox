@@ -7,7 +7,7 @@ function main() -> none {
     d.set(2, "two");
 
     // Get
-    print(any_to_string(d.size())); // 2
+    print(numToString(d.size())); // 2
 
     rox_result[string] r1 = d.get(1);
     if (isOk(r1)) {
@@ -23,7 +23,7 @@ function main() -> none {
 
     // Remove
     d.remove(2);
-    print(any_to_string(d.size())); // 1
+    print(numToString(d.size())); // 1
 
     // Has
     if (d.has(1)) {
@@ -47,5 +47,20 @@ function main() -> none {
     rox_result[num] rs = ds.get("a");
     if (isOk(rs)) {
         print(numToString(getValue(rs))); // 100
+    }
+
+    // getKeys
+    list[num] keys = d.getKeys();
+    print(numToString(keys.size())); // 1
+    rox_result[num] kopt = keys.at(0);
+    if (isOk(kopt)) {
+        print(numToString(getValue(kopt))); // 1
+    }
+
+    list[string] skeys = ds.getKeys();
+    print(numToString(skeys.size())); // 1
+    rox_result[string] sk = skeys.at(0);
+    if (isOk(sk)) {
+        print(getValue(sk)); // a
     }
 }

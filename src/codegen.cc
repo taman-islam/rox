@@ -194,6 +194,16 @@ void Codegen::emitPreamble() {
     out << "    return dict.find(key) != dict.end();\n";
     out << "}\n";
     out << "\n";
+    out << "// Dictionary Keys\n";
+    out << "template<typename K, typename V>\n";
+    out << "std::vector<K> rox_keys(const std::unordered_map<K, V>& dict) {\n";
+    out << "    std::vector<K> keys;\n";
+    out << "    keys.reserve(dict.size());\n";
+    out << "    for (const auto& kv : dict) {\n";
+    out << "        keys.push_back(kv.first);\n";
+    out << "    }\n";
+    out << "    return keys;\n";
+    out << "}\n";
     out << "\n";
 
     out << "num32 num32_abs(num32 x) { return std::abs(x); }\n";
@@ -240,27 +250,17 @@ void Codegen::emitPreamble() {
     out << "    return std::vector<char>(s.begin(), s.end());\n";
     out << "}\n";
     out << "\n";
+    out << "std::vector<char> floatToString(double d) {\n";
+    out << "    std::string s = std::to_string(d);\n";
+    out << "    // Remove trailing zeros? std::to_string default 6 decimals\n";
+    out << "    return std::vector<char>(s.begin(), s.end());\n";
+    out << "}\n";
+    out << "\n";
     out << "std::vector<char> charToString(char c) {\n";
     out << "    return {c};\n";
     out << "}\n";
     out << "\n";
-    out << "std::string any_to_string(num n) { return std::to_string(n); }\n";
-    out << "std::string any_to_string(int n) { return std::to_string(n); }\n";
-    out << "std::string any_to_string(double d) { return std::to_string(d); }\n";
-    out << "std::string any_to_string(char c) { return std::string(1, c); }\n";
-    out << "std::string any_to_string(bool b) { return b ? \"true\" : \"false\"; }\n";
-    out << "std::string any_to_string(const RoxString& s) { return s.val; }\n";
     out << "\n";
-    out << "template <typename T>\n";
-    out << "std::vector<char> listToString(const std::vector<T>& list) {\n";
-    out << "    std::string s = \"[\";\n";
-    out << "    for (size_t i = 0; i < list.size(); ++i) {\n";
-    out << "        if (i > 0) s += \", \";\n";
-    out << "        s += any_to_string(list[i]);\n";
-    out << "    }\n";
-    out << "    s += \"]\";\n";
-    out << "    return std::vector<char>(s.begin(), s.end());\n";
-    out << "}\n";
     out << "\n";
 
     out << "\n// End Runtime\n\n";
@@ -608,6 +608,10 @@ void Codegen::genMethodCall(MethodCallExpr* expr) {
         out << "((num)";
         genExpr(expr->object.get());
         out << ".size())";
+    } else if (method == "getKeys") {
+        out << "rox_keys(";
+        genExpr(expr->object.get());
+        out << ")";
     } else {
         genExpr(expr->object.get());
         out << "." << method << "(";

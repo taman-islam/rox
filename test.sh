@@ -30,14 +30,17 @@ run_test() {
 }
 
 # Run verified algorithms
-run_test "test/two_sum.rox"
-run_test "test/valid_parentheses.rox"
 run_test "test/binary_search.rox"
-run_test "test/max_subarray.rox"
+run_test "test/test_regression.rox"
+run_test "test/good_test.rox"
+# run_test "test/test_string_fail.rox"
 run_test "test/longest_substring.rox"
 run_test "test/test_string.rox"
+run_test "test/max_subarray.rox"
+run_test "test/two_sum.rox"
 run_test "test/test_dict.rox"
-run_test "test/test_regression.rox"
+run_test "test/valid_parentheses.rox"
+run_test "test/test_math.rox"
 
 echo "--------------------------------"
 if [ $fail_count -eq 0 ]; then

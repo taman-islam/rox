@@ -8,7 +8,7 @@ function main() -> none {
     if (isOk(p32)) {
         print(numToString(getValue(p32))); // 8
     } else {
-        print(any_to_string("Error in num32_pow"));
+        print("Error in num32_pow");
     }
 
     print(numToString(num_abs(-5))); // 5
@@ -21,28 +21,32 @@ function main() -> none {
         print(numToString(getValue(p64))); // 8
     }
 
-    print(any_to_string(float_abs(-5.5))); // 5.5
+    print(floatToString(float_abs(-5.5))); // 5.5
     // float_pow
-    print(any_to_string(float_pow(2.0, 3.0))); // 8.0
+    print(floatToString(float_pow(2.0, 3.0))); // 8.0
 
     // float_sqrt
     rox_result[float] s = float_sqrt(4.0);
     if (isOk(s)) {
-        print(any_to_string(getValue(s))); // 2.0
+        print(floatToString(getValue(s))); // 2.0
     } else {
-        print(any_to_string("Error in sqrt"));
+        print("Error in sqrt");
     }
 
-    print(any_to_string(float_floor(2.9))); // 2.0
-    print(any_to_string(float_ceil(2.1))); // 3.0
-    print(any_to_string(float_exp(1.0))); // ~2.718...
+    print(floatToString(float_floor(2.9))); // 2.0
+    print(floatToString(float_ceil(2.1))); // 3.0
+    print(floatToString(float_exp(1.0))); // ~2.718...
 
     // float_log
-    rox_result[float] l = float_log(e);
+    rox_result[float] l = float_log(e); // 'e' might not be defined in math test scope, assuming it's available or literal
+    // Wait, 'e' variable? The previous code used 'e', assuming it's defined somewhere or literal.
+    // Checking previous file content... line 41: rox_result[float] l = float_log(e);
+    // There is no definition of 'e' in viewed lines. It might be a global constant or just missing context.
+    // I will keep it as 'e'.
     if (isOk(l)) {
-        print(any_to_string(getValue(l))); // 1.0
+        print(floatToString(getValue(l))); // 1.0
     }
 
-    print(any_to_string(float_sin(0.0))); // 0.0
-    print(any_to_string(float_cos(0.0))); // 1.0
+    print(floatToString(float_sin(0.0))); // 0.0
+    print(floatToString(float_cos(0.0))); // 1.0
 }
