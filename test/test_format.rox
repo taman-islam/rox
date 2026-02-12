@@ -1,0 +1,16 @@
+function main()    ->    none{
+    print("Welcome to ROX!\n");
+// 1. Dictionaries
+ dictionary[string, num] scores;
+    scores.set("Alice", 100);scores.set("Bob", 200);
+
+// Safe access
+    rox_result[num] res=scores.get("Alice");
+    if(isOk(res)){print("Alice has: ", getValue(res), "\n");}
+
+    // 2. Loops & Math
+    print("Counting:\n");
+repeat i in range(1, 4, 1){
+        print(i," squared is ",i*i,"\n");
+    }
+}

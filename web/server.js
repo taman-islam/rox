@@ -63,6 +63,37 @@ app.post("/run", (req, res) => {
   });
 });
 
+app.post("/format", (req, res) => {
+  const code = req.body.code;
+  const tempFile = path.resolve(__dirname, "../temp_format.rox");
+
+  fs.writeFile(tempFile, code, (err) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Error writing temp file." });
+    }
+
+    const roxPath = path.resolve(__dirname, "../rox");
+    // Command: ../rox format ../temp_format.rox
+    const cmd = `${roxPath} format ${tempFile}`;
+
+    exec(
+      cmd,
+      { cwd: path.resolve(__dirname, "..") },
+      (error, stdout, stderr) => {
+        // Delete temp file
+        fs.unlink(tempFile, () => {});
+
+        if (error) {
+          return res.status(500).json({ error: stderr || error.message });
+        }
+
+        res.json({ formatted: stdout });
+      },
+    );
+  });
+});
+
 app.listen(port, () => {
   console.log(`ROX Playground running at http://localhost:${port}`);
 });

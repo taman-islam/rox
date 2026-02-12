@@ -14,7 +14,7 @@ enum class TokenType {
     SEMICOLON, SLASH, STAR, PERCENT,
 
     // One or two character tokens.
-    BANG, BANG_EQUAL,
+    BANG,
     EQUAL, EQUAL_EQUAL,
     GREATER, GREATER_EQUAL,
     LESS, LESS_EQUAL,
@@ -34,7 +34,10 @@ enum class TokenType {
     END_OF_FILE,
 
     // Error token
-    ERROR
+    ERROR,
+
+    // Comment
+    COMMENT
 };
 
 struct Token {

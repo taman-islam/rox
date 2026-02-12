@@ -183,7 +183,12 @@ function main() -> none {
     }
 }
             </textarea>
-            <button onclick="runCode()">Run</button>
+            <div class="actions">
+                <button id="runBtn" onclick="runCode()">Run Code</button>
+                <button id="formatBtn"
+                    style="background: #252526; color: #d4d4d4; border: 1px solid #3e3e42;">Format</button>
+                <div id="status" class="status">Ready</div>
+            </div>
         </div>
         <div class="column">
             <h2>Build Status</h2>
@@ -194,19 +199,60 @@ function main() -> none {
     </div>
 
     <script>
-        async function runCode() {
-            const code = document.getElementById('code').value;
-            const outputDiv = document.getElementById('output');
-            const logsDiv = document.getElementById('logs');
+        const runBtn = document.getElementById('runBtn');
+        const formatBtn = document.getElementById('formatBtn');
+        const outputDiv = document.getElementById('output');
+        const logsDiv = document.getElementById('logs');
+        const status = document.getElementById('status');
+        const code = document.getElementById('code');
 
-            outputDiv.textContent = 'Running...';
+        formatBtn.addEventListener('click', async () => {
+            const originalText = formatBtn.innerText;
+            formatBtn.disabled = true;
+            formatBtn.innerText = 'Formatting...';
+
+            try {
+                const res = await fetch('/format', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code: code.value })
+                });
+
+                const data = await res.json();
+                if (data.error) {
+                    status.innerText = 'Format Error';
+                    status.style.color = '#f48771';
+                    console.error(data.error);
+                } else {
+                    code.value = data.formatted;
+                    status.innerText = 'Formatted';
+                    status.style.color = '#89d185';
+                }
+            } catch (e) {
+                status.innerText = 'Network Error';
+                status.style.color = '#f48771';
+                console.error(e);
+            } finally {
+                formatBtn.disabled = false;
+                formatBtn.innerText = originalText;
+                setTimeout(() => {
+                    if (status.innerText === 'Formatted') {
+                        status.innerText = 'Ready';
+                        status.style.color = '#d4d4d4';
+                    }
+                }, 2000);
+            }
+        });
+
+        runBtn.addEventListener('click', async () => {
+            output.textContent = 'Running...';
             logsDiv.textContent = 'Building...';
 
             try {
                 const response = await fetch('/run', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ code })
+                    body: JSON.stringify({ code: code.value })
                 });
                 const data = await response.json();
                 outputDiv.textContent = data.output;
@@ -215,7 +261,7 @@ function main() -> none {
                 outputDiv.textContent = 'Error: ' + err.message;
                 logsDiv.textContent = '';
             }
-        }
+        });
     </script>
 </body>
 

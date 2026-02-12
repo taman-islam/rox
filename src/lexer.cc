@@ -64,7 +64,7 @@ void Lexer::scanToken() {
         case '*': addToken(TokenType::STAR); break;
         case '%': addToken(TokenType::PERCENT); break;
         case '!':
-            addToken(match('=') ? TokenType::BANG_EQUAL : TokenType::BANG);
+            addToken(TokenType::BANG);
             break;
         case '=':
             addToken(match('=') ? TokenType::EQUAL_EQUAL : TokenType::EQUAL);
@@ -79,6 +79,7 @@ void Lexer::scanToken() {
             if (match('/')) {
                 // A comment goes until the end of the line.
                 while (peek() != '\n' && !isAtEnd()) advance();
+                addToken(TokenType::COMMENT);
             } else {
                 addToken(TokenType::SLASH);
             }

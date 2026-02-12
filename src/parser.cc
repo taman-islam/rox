@@ -217,7 +217,7 @@ std::unique_ptr<Expr> Parser::logic_and() {
 std::unique_ptr<Expr> Parser::equality() {
     std::unique_ptr<Expr> expr = comparison();
 
-    while (match({TokenType::BANG_EQUAL, TokenType::EQUAL_EQUAL})) {
+    while (match({TokenType::EQUAL_EQUAL})) {
         Token op = previous();
         std::unique_ptr<Expr> right = comparison();
 
