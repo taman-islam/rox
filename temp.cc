@@ -120,7 +120,6 @@ std::vector<char> charToString(char c) {
 }
 
 std::string any_to_string(num n) { return std::to_string(n); }
-std::string any_to_string(int n) { return std::to_string(n); }
 std::string any_to_string(char c) { return std::string(1, c); }
 std::string any_to_string(bool b) { return b ? "true" : "false"; }
 

@@ -32,6 +32,8 @@ function main() -> none {
     if (not d.has(2)) {
         print("No 2");
     }
+    print(d.has(1)); // Should be "true"
+    print(d.has(2)); // Should be "false"
 
     // Error handling
     rox_result[string] r3 = d.at(99);

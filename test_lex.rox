@@ -1,7 +1,0 @@
-// Test lexer
-num32 x = 10n32;
-const float pi = 3.14;
-print("Hello, world!");
-if (x > 5) {
-  x = x + 1;
-}

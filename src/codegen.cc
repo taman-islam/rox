@@ -366,6 +366,8 @@ void Codegen::genFunction(FunctionStmt* stmt) {
         out << "int main(";
         out << ") {\n";
         indentLevel++;
+        emitIndent();
+        out << "std::cout << std::boolalpha;\n";
         for (const auto& s : stmt->body) {
             genStmt(s.get());
         }
