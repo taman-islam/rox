@@ -15,7 +15,7 @@ public:
 
 private:
     const std::vector<Token>& tokens;
-    int current = 0;
+    size_t current = 0;
 
     std::unique_ptr<Stmt> declaration();
     std::unique_ptr<Stmt> functionDeclaration(std::string kind);
@@ -47,6 +47,7 @@ private:
     Token advance();
     bool isAtEnd();
     Token peek();
+    Token peekNext();
     Token previous();
     Token consume(TokenType type, std::string message);
 

@@ -1,0 +1,32 @@
+function add(num a, num b) -> num {
+    return a + b;
+}
+
+function subtract(num a, num b) -> num {
+    return a - b;
+}
+
+function apply(function(num, num) -> num f, num a, num b) -> num {
+    return f(a, b);
+}
+
+function get_adder() -> function(num, num) -> num {
+    return add;
+}
+
+function main() -> none {
+    // Test assignment
+    function(num, num) -> num op = add;
+    print(op(10, 5)); // Expect 15.000000 (or just 15)
+
+    op = subtract;
+    print(op(10, 5)); // Expect 5.000000
+
+    // Test passing as argument
+    print(apply(add, 20, 10)); // Expect 30.000000
+    print(apply(subtract, 20, 10)); // Expect 10.000000
+
+    // Test returning function
+    function(num, num) -> num adder = get_adder();
+    print(adder(3, 4)); // Expect 7.000000
+}

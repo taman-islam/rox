@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ROX Functions - Documentation</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+      background: #1e1e1e;
+      color: #d4d4d4;
+    }
+
+    nav {
+      background: #252526;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #3e3e42;
+    }
+
+    nav a {
+      color: #d4d4d4;
+      text-decoration: none;
+      margin-right: 20px;
+      font-weight: 500;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: #569cd6;
+    }
+
+    nav .brand {
+      font-weight: bold;
+      font-size: 18px;
+      color: #569cd6;
+      margin-right: 40px;
+    }
+
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      line-height: 1.6;
+    }
+
+    h1,
+    h2,
+    h3 {
+      color: #569cd6;
+      margin-top: 30px;
+    }
+
+    h1 {
+      border-bottom: 1px solid #3e3e42;
+      padding-bottom: 10px;
+    }
+
+    code {
+      background: #2d2d2d;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-family: monospace;
+      color: #ce9178;
+    }
+
+    pre {
+      background: #2d2d2d;
+      padding: 15px;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+      color: #d4d4d4;
+    }
+
+    .type-tag {
+      display: inline-block;
+      background: #0e639c;
+      color: white;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+      margin-left: 10px;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <span class="brand">ROX</span>
+    <a href="/">Playground</a>
+    <a href="/docs.html">Docs</a>
+    <a href="/docs/types.html">Types</a>
+    <a href="/docs/control.html">Control</a>
+    <a href="/docs/collections.html">Collections</a>
+    <a href="/docs/functions.html" class="active">Functions</a>
+  </nav>
+
+  <div class="content">
+    <h1>Functions</h1>
+    <p>Functions in ROX are <strong>first-class citizens</strong>, meaning they can be assigned to variables, passed as
+      arguments, and returned from other functions.</p>
+
+    <h2>Function Declaration</h2>
+    <p>Functions are declared using the <code>function</code> keyword, followed by the function name, parameters, and
+      return type.</p>
+
+    <pre><code>function add(num a, num b) -> num {
+    return a + b;
+}</code></pre>
+
+    <h3>Parameters</h3>
+    <p>Parameters must have explicit types.</p>
+    <pre><code>function greet(string name) -> none {
+    print("Hello, ", name, "!\n");
+}</code></pre>
+
+    <h3>Return Type</h3>
+    <p>The return type must be explicitly specified after <code>-></code>. If a function does not return a value, use
+      <code>none</code>.
+    </p>
+    <pre><code>function do_nothing() -> none {
+    return;
+}</code></pre>
+
+    <h2>Functions as Values</h2>
+    <p>Since functions are first-class, you can use them just like any other value.</p>
+
+    <h3>Type Syntax</h3>
+    <p>Function types are written as <code>function(ParamType1, ParamType2, ...) -> ReturnType</code>.</p>
+
+    <h3>Assigning to Variables</h3>
+    <p>You can assign a function to a variable with a matching function type.</p>
+    <pre><code>function square(num x) -> num {
+    return x * x;
+}
+
+// Declare a variable 'op' that holds a function taking a num and returning a num
+function(num) -> num op = square;
+
+print(op(5)); // Output: 25</code></pre>
+
+    <h3>Passing as Arguments</h3>
+    <p>Functions can be passed to other functions (higher-order functions).</p>
+    <pre><code>function apply(function(num) -> num f, num val) -> num {
+    return f(val);
+}
+
+function double(num x) -> num {
+    return x * 2;
+}
+
+print(apply(double, 10)); // Output: 20</code></pre>
+
+    <h3>Returning Functions</h3>
+    <p>Functions can return other functions.</p>
+    <pre><code>function log(string msg) -> none {
+    print(msg);
+}
+
+function get_logger() -> function(string) -> none {
+    return log;
+}
+
+function(string)->none logger = get_logger();
+logger("Log this message\n");</code></pre>
+
+    <h2>Recursion</h2>
+    <p>Recursive functions are fully supported.</p>
+    <pre><code>function factorial(num n) -> num {
+    if (n &lt;= 1) {
+        return 1;
+    }
+    return n * factorial(n - 1);
+}</code></pre>
+
+    <h2>Notes</h2>
+    <ul>
+      <li><strong>Anonymous Functions</strong>: Anonymous functions (lambdas) are not supported by design. You must
+        define a named function first.</li>
+      <li><strong>Closures</strong>: Functions do not capture variables from their surrounding scope by design. They
+        only have access to their parameters and global constants.</li>
+    </ul>
+  </div>
+</body>
+
+</html>

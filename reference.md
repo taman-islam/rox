@@ -192,6 +192,38 @@ function log(string msg) -> none {
 }
 ```
 
+### Functions as Values
+
+Functions can be assigned to variables, passed as arguments, and returned from other functions.
+
+**Syntax for Function Types:** `function(paramType1, paramType2,...) -> returnType`
+
+```rox
+function add(num a, num b) -> num {
+    return a + b;
+}
+
+// Assignment
+function(num, num) -> num op = add;
+
+// Passing as argument
+function apply(function(num, num) -> num f, num a, num b) -> num {
+    return f(a, b);
+}
+
+// Returning functions
+function log(string msg) -> none {
+    print(msg);
+}
+
+function get_logger() -> function(string) -> none {
+    return log;
+}
+
+function(string)->none logger = get_logger();
+logger("Log this message\n");
+```
+
 ## Built-in Functions
 
 - `print(val) -> none`: Supports `string`, `num`, `num32`, `float`, `bool`, `char`, `list`.

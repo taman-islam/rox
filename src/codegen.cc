@@ -320,6 +320,15 @@ void Codegen::genType(Type* type) {
         out << ", ";
         genType(t->valueType.get());
         out << ">";
+    } else if (auto* t = dynamic_cast<FunctionType*>(type)) {
+        out << "std::function<";
+        genType(t->returnType.get());
+        out << "(";
+        for (size_t i = 0; i < t->paramTypes.size(); ++i) {
+            if (i > 0) out << ", ";
+            genType(t->paramTypes[i].get());
+        }
+        out << ")>";
     } else if (auto* t = dynamic_cast<RoxResultType*>(type)) {
         out << "rox_result<";
         genType(t->valueType.get());

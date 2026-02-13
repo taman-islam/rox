@@ -14,8 +14,10 @@ std::vector<std::unique_ptr<Stmt>> Parser::parse() {
 }
 
 std::unique_ptr<Stmt> Parser::declaration() {
-    if (match({TokenType::FUNCTION})) return functionDeclaration("function");
-    if (match({TokenType::FUNCTION})) return functionDeclaration("function");
+    if (check(TokenType::FUNCTION) && peekNext().type == TokenType::IDENTIFIER) {
+        advance();
+        return functionDeclaration("function");
+    }
     if (match({TokenType::CONST})) return varDeclaration();
 
     // Check for variable declaration starting with a type
@@ -24,7 +26,7 @@ std::unique_ptr<Stmt> Parser::declaration() {
         check(TokenType::TYPE_CHAR) || check(TokenType::TYPE_STRING) ||
         check(TokenType::TYPE_LIST) ||
         check(TokenType::TYPE_DICT) || check(TokenType::TYPE_ROX_RESULT) ||
-        check(TokenType::NONE)) {
+        check(TokenType::NONE) || check(TokenType::FUNCTION)) {
         return varDeclaration();
     }
 
@@ -394,6 +396,21 @@ std::unique_ptr<Type> Parser::type() {
         return std::make_unique<RoxResultType>(std::move(valueType));
     }
 
+    if (match({TokenType::FUNCTION})) {
+        consume(TokenType::LEFT_PAREN, "Expect '(' after function type.");
+        std::vector<std::unique_ptr<Type>> paramTypes;
+        if (!check(TokenType::RIGHT_PAREN)) {
+            do {
+                paramTypes.push_back(type());
+            } while (match({TokenType::COMMA}));
+        }
+        consume(TokenType::RIGHT_PAREN, "Expect ')' after function parameters.");
+        consume(TokenType::MINUS, "Expect '->' after function parameters.");
+        consume(TokenType::GREATER, "Expect '->' after function parameters.");
+        std::unique_ptr<Type> returnType = type();
+        return std::make_unique<FunctionType>(std::move(paramTypes), std::move(returnType));
+    }
+
     error(peek(), "Expect type.");
     return nullptr;
 }
@@ -424,6 +441,11 @@ bool Parser::isAtEnd() {
 
 Token Parser::peek() {
     return tokens[current];
+}
+
+Token Parser::peekNext() {
+    if (current + 1 >= tokens.size()) return tokens.back(); // or EOF
+    return tokens[current + 1];
 }
 
 Token Parser::previous() {

@@ -45,6 +45,22 @@ public:
     std::string toString() const override { return "result[" + valueType->toString() + "]"; }
 };
 
+struct FunctionType : Type {
+    std::vector<std::unique_ptr<Type>> paramTypes;
+    std::unique_ptr<Type> returnType;
+    FunctionType(std::vector<std::unique_ptr<Type>> paramTypes, std::unique_ptr<Type> returnType)
+        : paramTypes(std::move(paramTypes)), returnType(std::move(returnType)) {}
+    std::string toString() const override {
+        std::string s = "function(";
+        for (size_t i = 0; i < paramTypes.size(); ++i) {
+            if (i > 0) s += ", ";
+            s += paramTypes[i]->toString();
+        }
+        s += ") -> " + returnType->toString();
+        return s;
+    }
+};
+
 // --- Expressions ---
 
 struct Expr {
