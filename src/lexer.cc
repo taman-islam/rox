@@ -1,37 +1,40 @@
 #include "lexer.h"
-#include <map>
+#include <unordered_map>
 #include <iostream>
 
 namespace rox {
 
-static const std::map<std::string, TokenType> keywords = {
-    {"and", TokenType::AND},
-    {"else", TokenType::ELSE},
-    {"false", TokenType::FALSE},
-    {"function", TokenType::FUNCTION},
-    {"if", TokenType::IF},
-    {"const", TokenType::CONST},
-    {"none", TokenType::NONE},
-    {"or", TokenType::OR},
-    {"print", TokenType::PRINT},
-    {"read_line", TokenType::READ_LINE},
-    {"return", TokenType::RETURN},
-    {"true", TokenType::TRUE},
-    {"repeat", TokenType::REPEAT},
-    {"range", TokenType::RANGE},
-    {"not", TokenType::NOT},
-    {"break", TokenType::BREAK},
-    {"continue", TokenType::CONTINUE},
-    {"num32", TokenType::TYPE_NUM32},
-    {"num", TokenType::TYPE_NUM},
-    {"float", TokenType::TYPE_FLOAT},
-    {"bool", TokenType::TYPE_BOOL},
-    {"char", TokenType::TYPE_CHAR},
-    {"list", TokenType::TYPE_LIST},
-    {"dictionary", TokenType::TYPE_DICT},
-    {"string", TokenType::TYPE_STRING},
-    {"rox_result", TokenType::TYPE_ROX_RESULT}, // TODO: move to roxResult
-};
+const std::unordered_map<std::string, TokenType>& Lexer::getKeywords() {
+    static const std::unordered_map<std::string, TokenType> keywords = {
+        {"and", TokenType::AND},
+        {"else", TokenType::ELSE},
+        {"false", TokenType::FALSE},
+        {"function", TokenType::FUNCTION},
+        {"if", TokenType::IF},
+        {"const", TokenType::CONST},
+        {"none", TokenType::NONE},
+        {"or", TokenType::OR},
+        {"print", TokenType::PRINT},
+        {"read_line", TokenType::READ_LINE},
+        {"return", TokenType::RETURN},
+        {"true", TokenType::TRUE},
+        {"repeat", TokenType::REPEAT},
+        {"range", TokenType::RANGE},
+        {"not", TokenType::NOT},
+        {"break", TokenType::BREAK},
+        {"continue", TokenType::CONTINUE},
+        {"num32", TokenType::TYPE_NUM32},
+        {"num", TokenType::TYPE_NUM},
+        {"float", TokenType::TYPE_FLOAT},
+        {"bool", TokenType::TYPE_BOOL},
+        {"char", TokenType::TYPE_CHAR},
+        {"list", TokenType::TYPE_LIST},
+        {"dictionary", TokenType::TYPE_DICT},
+        {"string", TokenType::TYPE_STRING},
+        {"rox_result", TokenType::TYPE_ROX_RESULT},
+    };
+    return keywords;
+}
 
 Lexer::Lexer(const std::string& source) : source(source) {}
 
@@ -111,6 +114,7 @@ void Lexer::identifier() {
 
     std::string text = source.substr(start, current - start);
     TokenType type = TokenType::IDENTIFIER;
+    const auto& keywords = getKeywords();
     auto search = keywords.find(text);
     if (search != keywords.end()) {
         type = search->second;

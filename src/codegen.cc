@@ -1,6 +1,8 @@
 #include "codegen.h"
+#include "lexer.h"
 #include <iostream>
-#include <map>
+#include <unordered_map>
+#include <unordered_set>
 
 namespace rox {
 
@@ -274,11 +276,11 @@ void Codegen::genStmt(Stmt* stmt) {
     else emitLine("// Unknown statement");
 }
 
-void Codegen::genBreak(BreakStmt* stmt) {
+void Codegen::genBreak(BreakStmt* _unused_stmt) {
     emitLine("break;");
 }
 
-void Codegen::genContinue(ContinueStmt* stmt) {
+void Codegen::genContinue(ContinueStmt* _unused_stmt) {
     emitLine("continue;");
 }
 
@@ -350,11 +352,11 @@ void Codegen::genIf(IfStmt* stmt) {
 
 void Codegen::genRepeat(RepeatStmt* stmt) {
     emitIndent();
-    out << "for (auto " << stmt->iterator.lexeme << " = ";
+    out << "for (auto " << sanitize(stmt->iterator.lexeme) << " = ";
     genExpr(stmt->start.get());
-    out << "; " << stmt->iterator.lexeme << " < ";
+    out << "; " << sanitize(stmt->iterator.lexeme) << " < ";
     genExpr(stmt->end.get());
-    out << "; " << stmt->iterator.lexeme << " += ";
+    out << "; " << sanitize(stmt->iterator.lexeme) << " += ";
     if (stmt->step) genExpr(stmt->step.get());
     else out << "1";
     out << ") ";
@@ -363,7 +365,7 @@ void Codegen::genRepeat(RepeatStmt* stmt) {
 
 void Codegen::genFunction(FunctionStmt* stmt) {
     std::string oldFunctionName = currentFunctionName;
-    currentFunctionName = stmt->name.lexeme;
+    currentFunctionName = sanitize(stmt->name.lexeme);
 
     emitIndent();
     // Special case for main
@@ -386,12 +388,12 @@ void Codegen::genFunction(FunctionStmt* stmt) {
 
     // Return Type
     genType(stmt->returnType.get());
-    out << " " << stmt->name.lexeme << "(";
+    out << " " << sanitize(stmt->name.lexeme) << "(";
 
     for (size_t i = 0; i < stmt->params.size(); ++i) {
         if (i > 0) out << ", ";
         genType(stmt->params[i].type.get());
-        out << " " << stmt->params[i].name.lexeme;
+        out << " " << sanitize(stmt->params[i].name.lexeme);
     }
     out << ") {\n";
     indentLevel++;
@@ -447,7 +449,7 @@ void Codegen::genLet(LetStmt* stmt) {
     emitIndent();
     if (stmt->isConst) out << "const ";
     genType(stmt->type.get());
-    out << " " << stmt->name.lexeme;
+    out << " " << sanitize(stmt->name.lexeme);
 
     if (!stmt->initializer) {
         // No initializer -> default initialization
@@ -543,11 +545,11 @@ void Codegen::genLiteral(LiteralExpr* expr) {
 }
 
 void Codegen::genVariable(VariableExpr* expr) {
-    out << expr->name.lexeme;
+    out << sanitize(expr->name.lexeme);
 }
 
 void Codegen::genAssignment(AssignmentExpr* expr) {
-    out << "(" << expr->name.lexeme << " = ";
+    out << "(" << sanitize(expr->name.lexeme) << " = ";
     genExpr(expr->value.get());
     out << ")";
 }
@@ -640,6 +642,32 @@ void Codegen::genLogical(LogicalExpr* expr) {
     else out << " && ";
     genExpr(expr->right.get());
     out << ")";
+}
+
+std::string Codegen::sanitize(const std::string& name) {
+    // All C++20 keywords
+    static const std::unordered_set<std::string> cpp_keywords = {
+        "alignas", "alignof", "and", "and_eq", "asm", "atomic_cancel", "atomic_commit", "atomic_noexcept",
+        "auto", "bitand", "bitor", "bool", "break", "case", "catch", "char", "char8_t", "char16_t", "char32_t",
+        "class", "compl", "concept", "const", "consteval", "constexpr", "constinit", "const_cast", "continue",
+        "co_await", "co_return", "co_yield", "decltype", "default", "delete", "do", "double", "dynamic_cast",
+        "else", "enum", "explicit", "export", "extern", "false", "float", "for", "friend", "goto", "if", "inline",
+        "int", "long", "mutable", "namespace", "new", "noexcept", "not", "not_eq", "nullptr", "operator", "or",
+        "or_eq", "private", "protected", "public", "reflexpr", "register", "reinterpret_cast", "requires",
+        "return", "short", "signed", "sizeof", "static", "static_assert", "static_cast", "struct", "switch",
+        "synchronized", "template", "this", "thread_local", "throw", "true", "try", "typedef", "typeid",
+        "typename", "union", "unsigned", "using", "virtual", "void", "volatile", "wchar_t", "while", "xor", "xor_eq"
+    };
+
+    bool should_sanitize = [name]() {
+        return cpp_keywords.find(name) != cpp_keywords.end() &&
+               Lexer::getKeywords().find(name) == Lexer::getKeywords().end();
+    }();
+
+    if (should_sanitize) {
+        return name + "_";
+    }
+    return name;
 }
 
 } // namespace rox

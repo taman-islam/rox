@@ -1,0 +1,23 @@
+function do() -> num {
+    return 1;
+}
+
+function class() -> num {
+    return 2;
+}
+
+function try() -> num {
+    return 3;
+}
+
+function main() -> none {
+    num a = do();
+    num b = class();
+    num c = try();
+
+    if (a + b + c == 6) {
+        print("Keywords sanitize test passed\n");
+    } else {
+        print("Failed\n");
+    }
+}

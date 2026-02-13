@@ -158,6 +158,40 @@ Immutable sequence of bytes.
 - `.size() -> num`
 - `.at(index) -> rox_result[char]`
 
+## Functions
+
+Functions are first-class citizens in ROX. They must specify parameter types and return types explicitly.
+
+```rox
+function add(num a, num b) -> num {
+    return a + b;
+}
+```
+
+### Syntax
+
+```rox
+function name(type name, ...) -> return_type {
+    // body
+    return value;
+}
+```
+
+- **Parameters**: Must have explicit types.
+- **Return Type**: Must be explicit. Use `none` if no value is returned.
+- **Recursion**: Supported.
+
+### Return Values
+
+Functions returning `none` can omit the return statement or use `return;` or `return none;`.
+
+```rox
+function log(string msg) -> none {
+    print(msg);
+    // Implicit return none
+}
+```
+
 ## Built-in Functions
 
 - `print(val) -> none`: Supports `string`, `num`, `num32`, `float`, `bool`, `char`, `list`.

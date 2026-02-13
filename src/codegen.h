@@ -24,6 +24,7 @@ private:
     void emit(const std::string& s);
     void emitLine(const std::string& s);
     void emitPreamble();
+    std::string sanitize(const std::string& name);
 
     void genStmt(Stmt* stmt);
     void genExpr(Expr* expr);

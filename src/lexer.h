@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include "token.h"
 
 namespace rox {
@@ -11,6 +12,7 @@ class Lexer {
 public:
     Lexer(const std::string& source);
     std::vector<Token> scanTokens();
+    static const std::unordered_map<std::string, TokenType>& getKeywords();
 
 private:
     std::string source;
