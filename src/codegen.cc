@@ -654,29 +654,21 @@ void Codegen::genLogical(LogicalExpr* expr) {
 }
 
 std::string Codegen::sanitize(const std::string& name) {
-    // All C++20 keywords
-    static const std::unordered_set<std::string> cpp_keywords = {
-        "alignas", "alignof", "and", "and_eq", "asm", "atomic_cancel", "atomic_commit", "atomic_noexcept",
-        "auto", "bitand", "bitor", "bool", "break", "case", "catch", "char", "char8_t", "char16_t", "char32_t",
-        "class", "compl", "concept", "const", "consteval", "constexpr", "constinit", "const_cast", "continue",
-        "co_await", "co_return", "co_yield", "decltype", "default", "delete", "do", "double", "dynamic_cast",
-        "else", "enum", "explicit", "export", "extern", "false", "float", "for", "friend", "goto", "if", "inline",
-        "int", "long", "mutable", "namespace", "new", "noexcept", "not", "not_eq", "nullptr", "operator", "or",
-        "or_eq", "private", "protected", "public", "reflexpr", "register", "reinterpret_cast", "requires",
-        "return", "short", "signed", "sizeof", "static", "static_assert", "static_cast", "struct", "switch",
-        "synchronized", "template", "this", "thread_local", "throw", "true", "try", "typedef", "typeid",
-        "typename", "union", "unsigned", "using", "virtual", "void", "volatile", "wchar_t", "while", "xor", "xor_eq"
-    };
+    if (name.empty()) return name;
 
-    bool should_sanitize = [name]() {
-        return cpp_keywords.find(name) != cpp_keywords.end() &&
-               Lexer::getKeywords().find(name) == Lexer::getKeywords().end();
-    }();
-
-    if (should_sanitize) {
-        return name + "_";
+    // Check if name is a keyword (like 'print', 'read_line', 'num32')
+    if (Lexer::getKeywords().find(name) != Lexer::getKeywords().end()) {
+        return name;
     }
-    return name;
+
+    // Check if name is a preserved built-in or special name (like 'main', 'pi', 'isOk')
+    if (Lexer::getBuiltins().find(name) != Lexer::getBuiltins().end()) {
+        return name;
+    }
+
+
+    // Namespacing for user identifiers
+    return "roxv26_" + name;
 }
 
 } // namespace rox

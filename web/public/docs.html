@@ -138,7 +138,25 @@
       <li>A single loop construct (<code>repeat</code>)</li>
       <li>Explicit control flow only</li>
       <li>Strict compile-time type checking</li>
+      <li>Automatic namespacing (reserved <code>roxv26_</code> prefix)</li>
     </ul>
+
+    <h2>Namespacing (v0)</h2>
+    <p>ROX automatically namespaces all user-defined identifiers to prevent collisions with C++ keywords and standard
+      library symbols.</p>
+    <ul>
+      <li>User variable <code>x</code> becomes <code>roxv26_x</code> in generated C++.</li>
+      <li><strong>Reserved Components</strong>: The following are NOT namespaced:
+        <ul>
+          <li><code>main</code> function (entry point)</li>
+          <li>Built-in functions (<code>print</code>, <code>isOk</code>, etc.)</li>
+          <li>Math library functions (<code>num32_abs</code>, <code>pi</code>, etc.)</li>
+          <li>Standard library constants (<code>true</code>, <code>false</code>, <code>none</code>)</li>
+        </ul>
+      </li>
+    </ul>
+    <p><strong>Rule</strong>: You cannot define identifiers starting with <code>roxv26_</code>. Attempting to do so will
+      result in a compilation error.</p>
 
     <h2>Example: Two Sum</h2>
     <pre><code>function two_sum(list[num] nums, num target) -> list[num] {

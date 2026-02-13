@@ -36,6 +36,27 @@ const std::unordered_map<std::string, TokenType>& Lexer::getKeywords() {
     return keywords;
 }
 
+const std::unordered_set<std::string>& Lexer::getBuiltins() {
+    static const std::unordered_set<std::string> builtins = {
+        // Core Functions
+        "isOk", "getValue", "getError", "ok", "error",
+        // Constants not in keywords
+        "pi", "e",
+        // Math Functions (num32)
+        "num32_abs", "num32_min", "num32_max", "num32_pow",
+        // Math Functions (num)
+        "num_abs", "num_min", "num_max", "num_pow",
+        // Math Functions (float)
+        "float_abs", "float_min", "float_max", "float_pow", "float_sqrt",
+        "float_sin", "float_cos", "float_tan", "float_log", "float_exp", "float_floor", "float_ceil",
+        // Collection Helpers
+        "rox_at", "rox_set", "rox_remove", "rox_has", "rox_keys", "rox_div", "rox_mod", "rox_get",
+        // Special
+        "main"
+    };
+    return builtins;
+}
+
 Lexer::Lexer(const std::string& source) : source(source) {}
 
 std::vector<Token> Lexer::scanTokens() {
@@ -113,6 +134,12 @@ void Lexer::identifier() {
     while (isalnum(peek()) || peek() == '_') advance();
 
     std::string text = source.substr(start, current - start);
+
+    if (text.rfind("roxv26_", 0) == 0) { // Check if starts with "roxv26_"
+        std::cerr << "Error: Identifier '" << text << "' cannot start with reserved prefix 'roxv26_'." << std::endl;
+        exit(1);
+    }
+
     TokenType type = TokenType::IDENTIFIER;
     const auto& keywords = getKeywords();
     auto search = keywords.find(text);

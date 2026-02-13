@@ -12,6 +12,8 @@ function add(num a, num b) -> num {
 }
 ```
 
+**Note**: Function names (except `main`) are automatically namespaced by the compiler (prefixed with `roxv26_`) to avoid collisions. Users cannot start function or variable names with `roxv26_`.
+
 ### Parameters
 
 Parameters must have explicit types.

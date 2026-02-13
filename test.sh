@@ -29,29 +29,47 @@ run_test() {
     fi
 }
 
+test_fail() {
+    file=$1
+    echo -n "Testing expected fail $file... "
+    output=$(./rox run "$file" 2>&1)
+    exit_code=$?
+
+    if [ $exit_code -ne 0 ]; then
+        echo -e "${GREEN}PASSED (Failed as expected)${NC}"
+    else
+        echo -e "${RED}FAILED (Should have failed but passed)${NC}"
+        echo "$output"
+        fail_count=$((fail_count + 1))
+    fi
+}
+
 # Run verified algorithms
 run_test "test/binary_search.rox"
-run_test "test/test_math.rox"
 run_test "test/good_test.rox"
-run_test "test/test_pop.rox"
 run_test "test/longest_substring.rox"
-run_test "test/test_regression.rox"
 run_test "test/max_subarray.rox"
-# run_test "test_string_fail.rox"
-run_test "test/test_dict.rox"
-run_test "test/test_string.rox"
-run_test "test/test_format_out.rox"
-run_test "test/two_sum.rox"
-run_test "test/test_format.rox"
-run_test "test/valid_parentheses.rox"
-run_test "test/test_list_set.rox"
 run_test "test/test_break.rox"
 run_test "test/test_continue.rox"
-run_test "test/test_result_error.rox"
-run_test "test/test_format_not.rox"
+run_test "test/test_cpp_collision.rox"
 run_test "test/test_cpp_keywords.rox"
+run_test "test/test_dict.rox"
+run_test "test/test_format_not.rox"
+run_test "test/test_format_out.rox"
+run_test "test/test_format.rox"
 run_test "test/test_functions_as_values.rox"
+run_test "test/test_list_set.rox"
+run_test "test/test_math.rox"
+run_test "test/test_pop.rox"
+run_test "test/test_regression.rox"
+run_test "test/test_result_error.rox"
+run_test "test/test_string.rox"
+run_test "test/two_sum.rox"
+run_test "test/valid_parentheses.rox"
 
+# run tests that should fail
+test_fail "test/test_roxv26_prefix.rox"
+test_fail "test/test_string_fail.rox"
 
 
 

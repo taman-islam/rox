@@ -1,0 +1,12 @@
+// These are C++ keywords but valid ROX identifiers now thanks to namespacing
+num32 class = 10;
+num32 public = 20;
+num32 template = 30;
+
+function virtual() -> num32 {
+    return 40;
+}
+
+function main() -> none {
+    print(class + public + template + virtual()); // Expect 100
+}

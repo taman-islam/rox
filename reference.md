@@ -14,6 +14,18 @@ ROX removes implicit behavior, hidden conversions, and syntactic tricks so that 
 - A single loop construct (`repeat`)
 - Explicit control flow only
 - Strict compile-time type checking
+- **Reserved Prefix**: `roxv26_` is reserved for internal namespacing. User variables must not start with this prefix.
+
+## Namespacing (v0)
+
+ROX automatically namespaces all user-defined identifiers to prevent collisions with C++ keywords and standard library symbols.
+
+- User variable `x` becomes `roxv26_x` in generated C++.
+- **Reserved Components**: The following are NOT namespaced:
+  - `main` function (entry point)
+  - Built-in functions (`print`, `isOk`, etc.)
+  - Math library functions (`num32_abs`, `pi`, etc.)
+  - Standard library constants (`true`, `false`, `none`)
 
 ## Operators
 
